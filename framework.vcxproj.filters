@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="resourceUtil.cpp" />
+    <ClCompile Include="sound.cpp" />
+    <ClCompile Include="stb_image_reader.cpp" />
+    <ClCompile Include="TEXT_FILE_BUFFER.cpp" />
+    <ClCompile Include="UltraBasic.cpp" />
+    <ClCompile Include="VECTOR2.cpp" />
+    <ClCompile Include="VECTOR3.cpp" />
+    <ClCompile Include="window.cpp" />
+    <ClCompile Include="BITMAP_RESOURCE.cpp" />
+    <ClCompile Include="COLOR.cpp" />
+    <ClCompile Include="debugStr.cpp" />
+    <ClCompile Include="FILE_BUFFER.cpp" />
+    <ClCompile Include="framework.cpp" />
+    <ClCompile Include="graphic.cpp" />
+    <ClCompile Include="HLSL.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="MAT.cpp" />
+    <ClCompile Include="MATRIX.cpp" />
+    <ClCompile Include="OBJECT.cpp" />
+    <ClCompile Include="QUATERNION.cpp" />
+    <ClCompile Include="rand.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader.fx" />
+    <FxCompile Include="shaderPS.hlsl" />
+    <FxCompile Include="shaderPS2.hlsl" />
+    <FxCompile Include="shaderVS.hlsl" />
+    <FxCompile Include="shaderVS2.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BITMAP_RESOURCE.h" />
+    <ClInclude Include="COLOR.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="debugStr.h" />
+    <ClInclude Include="FILE_BUFFER.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="graphic.h" />
+    <ClInclude Include="HLSL.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="MAT.h" />
+    <ClInclude Include="MATRIX.h" />
+    <ClInclude Include="QUATERNION.h" />
+    <ClInclude Include="rand.h" />
+    <ClInclude Include="resourceUtil.h" />
+    <ClInclude Include="sound.h" />
+    <ClInclude Include="stb_image_reader.h" />
+    <ClInclude Include="TEXT_FILE_BUFFER.h" />
+    <ClInclude Include="UltraBasic.h" />
+    <ClInclude Include="VECTOR2.h" />
+    <ClInclude Include="VECTOR3.h" />
+    <ClInclude Include="window.h" />
+  </ItemGroup>
+</Project>
