@@ -543,7 +543,8 @@ int loadImage( const char* fileName, int defaultPathFlag ){
     IMAGE img;//テンポラリ
     int texWidth, texHeight;
 
-    loadTexture( pathFileName.c_str(), &texWidth, &texHeight, &img.texture );
+    loadTexture(pathFileName.c_str(), &texWidth, &texHeight, &img.texture);
+    //loadTexture( fileName, &texWidth, &texHeight, &img.texture );
 	createVertexBuffer( texWidth, texHeight, &img.vertexBuffer );
     img.halfWidth = texWidth / 2.0f;
     img.halfHeight = texHeight / 2.0f;
@@ -561,6 +562,77 @@ int loadImage( const char* fileName, int defaultPathFlag ){
     return ( Images->size() - 1 );
 }
 
+int loadImageFromRes(const char* resName) {
+    HINSTANCE hInst = GetModuleHandle(0);
+    HRSRC hRes = FindResource(hInst, resName, "IMAGE");
+    WARNING(hRes == 0, "リソースがみつからない", "loadImageFromRes");
+    // リソースのサイズを取得する 
+    DWORD sizeOfRes = SizeofResource(hInst, hRes);
+    WARNING(sizeOfRes == 0, "リソースのサイズがゼロ", "loadImageFromRes");
+    // 取得したリソースをメモリにロードする
+    HGLOBAL hMem = LoadResource(hInst, hRes);
+    WARNING(hMem == 0, "リソースがロードできない", "loadImageFromRes");
+    // ロードしたリソースデータのアドレスを取得する
+    unsigned char* mem = (unsigned char*)LockResource(hMem);
+    if (mem == 0) {
+        FreeResource(hMem);
+        WARNING(true, "リソースのアドレスが取得できない", "loadImageFromRes");
+    }
+    //stb_imageで読み込んでResourceViewをつくる
+    unsigned char* pixels = 0;
+    int texWidth = 0;
+    int texHeight = 0;
+    int numBytePerPixel = 0;
+    pixels = stbi_load_from_memory(mem, sizeOfRes, &texWidth, &texHeight, &numBytePerPixel, 4);
+    WARNING(!pixels, resName, "Load error");
+
+    IMAGE img;//テンポラリ
+
+    //テクスチャーとビューを創る
+    D3D11_TEXTURE2D_DESC td;
+    td.Width = texWidth;
+    td.Height = texHeight;
+    td.MipLevels = 1;
+    td.ArraySize = 1;
+    td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    td.SampleDesc.Count = 1;
+    td.SampleDesc.Quality = 0;
+    td.Usage = D3D11_USAGE_IMMUTABLE;
+    td.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+    td.CPUAccessFlags = 0;
+    td.MiscFlags = 0;
+    D3D11_SUBRESOURCE_DATA sd;
+    sd.pSysMem = (void*)pixels;
+    sd.SysMemPitch = (UINT)(texWidth * 4);
+    sd.SysMemSlicePitch = (UINT)(texWidth * texHeight * 4);
+    ID3D11Texture2D* pTexture = 0;
+    HRESULT hr;
+    hr = Dev->CreateTexture2D(&td, &sd, &pTexture);
+    ID3D11ShaderResourceView* obj = 0;
+    hr = Dev->CreateShaderResourceView(pTexture, 0, &img.texture);
+    WARNING(FAILED(hr), "resourceView", "");
+    //解放
+    pTexture->Release();
+    stbi_image_free(pixels);
+    FreeResource(hMem);
+
+    createVertexBuffer(texWidth, texHeight, &img.vertexBuffer);
+    img.halfWidth = texWidth / 2.0f;
+    img.halfHeight = texHeight / 2.0f;
+    
+    //vectorの空いてるところにセット
+    for (unsigned i = 0; i < Images->size(); i++) {
+        if (Images->at(i).texture == 0) {
+            Images->at(i) = img;
+            return i;
+        }
+    }
+    //新規にセット
+    Images->push_back(img);
+    return (Images->size() - 1);
+}
+
+//ビットマップバージョン
 int loadImageFromResource( const char* resourceName ){
     BITMAP_RESOURCE bitmap( resourceName );
 

@@ -34,7 +34,7 @@ void freeSound(){
 	SAFE_RELEASE( Ds );
 	CoUninitialize();
 }
-int loadSound( char* fileName, int usePath ){
+int loadSound( const char* fileName, int usePath ){
     //①まず使用できるWAVデータかチェックする。結構長い。
 	HMMIO hmmio = 0;//WindowsマルチメディアAPIのハンドル(WindowsマルチメディアAPIはWAVファイル関係の操作用のAPIでありDirectXではない）
 	DWORD waveSize = 0;//WAVファイル内　WAVデータのサイズ（WAVファイルはWAVデータで占められているので、ほぼファイルサイズと同一）
@@ -201,7 +201,7 @@ void releaseSound( int i ){
 }
 
 //test
-int loadSoundFromMemory( char* fileName, int useDefaultPath ){
+int loadSoundFromMemory( const char* fileName, int useDefaultPath ){
     //ファイル名 編集
     int len = 0;
     if( useDefaultPath ) len = strlen( DATA_SOUNDS_PATH );

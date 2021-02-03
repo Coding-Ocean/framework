@@ -7,8 +7,8 @@ void freeSound();//全ての音を開放
 void releaseSound( int soundIdx );//ひとつの音だけ開放
 
 //ロード
-int loadSound( char* filename, int usePath=1 );
-int loadSoundFromMemory( char* fileName, int usePath=1 );//test中
+int loadSound( const char* filename, int usePath=1 );
+int loadSoundFromMemory( const char* fileName, int usePath=1 );//test中
 int duplicateSound( int i );
 
 //出力系

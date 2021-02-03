@@ -32,6 +32,8 @@ void setDeltaTime();
 
 //デバッグ文字のｂｍｐをリソースから読み込むためだけにつくった関数
 int loadImageFromResource( const char* resourceName );
+//汎用画像をリソースから読み込む
+int loadImageFromRes(const char* resName);
 
 //三角形描画( ３Ｄの勉強用 ）
 class VECTOR2;
